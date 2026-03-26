@@ -47,6 +47,10 @@ jobs:
 
       - name: Deploy to S3
         run: |
+          # Astro with base: /blog puts HTML under dist/blog/ but assets under dist/_astro/.
+          # CloudFront serves /blog/* from S3, so assets must also be under blog/ prefix.
+          cp -r dist/_astro dist/blog/_astro
+
           # HTML files: short cache (for content updates)
           aws s3 sync dist/ s3://$S3_BUCKET/ \
             --delete \
