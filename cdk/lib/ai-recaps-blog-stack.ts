@@ -67,7 +67,7 @@ function handler(event) {
     const blogOrigin = origins.S3BucketOrigin.withOriginAccessControl(blogBucket);
 
     // --- Amplify Default Origin ---
-    const amplifyOrigin = new origins.HttpOrigin('d1ks49aoxclqfs.amplifyapp.com', {
+    const amplifyOrigin = new origins.HttpOrigin('master.d1ks49aoxclqfs.amplifyapp.com', {
       protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY,
       httpsPort: 443,
     });
