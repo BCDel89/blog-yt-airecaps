@@ -1,0 +1,72 @@
+---
+import Base from './Base.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author: string;
+  tags: string[];
+  image?: { src: string; alt: string };
+  canonicalURL?: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  author,
+  tags,
+  image,
+  canonicalURL,
+  headings,
+} = Astro.props;
+
+const formattedPubDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+// Estimate reading time (avg 200 wpm)
+---
+
+<Base
+  title={title}
+  description={description}
+  image={image?.src}
+  canonicalURL={canonicalURL}
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+  type="article"
+>
+  <article>
+    <h1>{title}</h1>
+    <div class="post-meta">
+      <time datetime={pubDate.toISOString()}>{formattedPubDate}</time>
+      {updatedDate && (
+        <span>Updated: <time datetime={updatedDate.toISOString()}>{formattedUpdatedDate}</time></span>
+      )}
+      <span>By {author}</span>
+    </div>
+    {tags.length > 0 && (
+      <div class="tags" style="margin-bottom: 2rem;">
+        {tags.map(tag => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+    <TableOfContents headings={headings} />
+    <div class="content">
+      <slot />
+    </div>
+  </article>
+</Base>

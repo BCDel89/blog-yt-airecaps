@@ -1,0 +1,42 @@
+---
+import SEOHead from '../components/SEOHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  type?: 'website' | 'article';
+}
+
+const { title, description, image, canonicalURL, pubDate, updatedDate, type } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SEOHead
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalURL}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      type={type}
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="container">
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

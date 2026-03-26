@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BlogList from '../../layouts/BlogList.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BlogList
+  title="Blog"
+  description="Tips, tutorials, and insights about AI-powered YouTube summaries from the AI Recaps team."
+  pageTitle="AI Recaps Blog"
+  pageSubtitle="Tips, tutorials, and insights on getting the most from AI-powered video summaries."
+>
+  {sortedPosts.map(post => (
+    <PostCard
+      title={post.data.title}
+      description={post.data.description}
+      pubDate={post.data.pubDate}
+      tags={post.data.tags}
+      slug={post.id}
+      image={post.data.image}
+    />
+  ))}
+  {sortedPosts.length === 0 && (
+    <p style="color: var(--text-muted);">No posts yet. Check back soon!</p>
+  )}
+</BlogList>

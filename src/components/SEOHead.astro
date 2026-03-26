@@ -1,0 +1,85 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  image,
+  canonicalURL,
+  pubDate,
+  updatedDate,
+  type = 'website',
+} = Astro.props;
+
+const siteURL = 'https://airecaps.com';
+const siteName = 'AI Recaps';
+const canonical = canonicalURL || Astro.url.href;
+const ogImage = image || `${siteURL}/og-default.png`;
+const fullTitle = `${title} | ${siteName} Blog`;
+
+const jsonLD = {
+  "@context": "https://schema.org",
+  "@type": type === 'article' ? "Article" : "WebSite",
+  "headline": title,
+  "description": description,
+  "url": canonical,
+  ...(pubDate && { "datePublished": pubDate.toISOString() }),
+  ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
+  "author": {
+    "@type": "Organization",
+    "name": siteName,
+    "url": siteURL
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": siteName,
+    "url": siteURL
+  },
+  ...(image && {
+    "image": {
+      "@type": "ImageObject",
+      "url": image
+    }
+  })
+};
+---
+
+<!-- Primary Meta -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteName} />
+{pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title={`${siteName} Blog RSS`} href="/blog/rss.xml" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />

@@ -1,0 +1,19 @@
+---
+const navLinks = [
+  { href: '/blog', label: 'Blog' },
+  { href: 'https://airecaps.com', label: 'App' },
+];
+---
+
+<header>
+  <div class="container">
+    <a href="/blog" class="logo">
+      AI Recaps
+    </a>
+    <nav>
+      {navLinks.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

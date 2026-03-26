@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://airecaps.com/blog/sitemap-index.xml
