@@ -4,14 +4,28 @@ import BlogPost from '../../layouts/BlogPost.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map(post => ({
+  const sorted = posts.sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  return sorted.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      prevPost: sorted[index + 1]
+        ? { slug: sorted[index + 1].id, title: sorted[index + 1].data.title }
+        : null,
+      nextPost: sorted[index - 1]
+        ? { slug: sorted[index - 1].id, title: sorted[index - 1].data.title }
+        : null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
+
+// Get raw body text for reading time estimate
+const rawContent = post.body ?? '';
 ---
 
 <BlogPost
@@ -24,6 +38,9 @@ const { Content, headings } = await render(post);
   image={post.data.image}
   canonicalURL={post.data.canonicalURL}
   headings={headings}
+  prevPost={prevPost}
+  nextPost={nextPost}
+  rawContent={rawContent}
 >
   <Content />
 </BlogPost>

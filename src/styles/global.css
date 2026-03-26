@@ -267,6 +267,29 @@ article .content img {
   margin: 1.5rem 0;
 }
 
+/* Tables */
+article .content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+article .content th,
+article .content td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+article .content th {
+  background-color: var(--bg-card);
+  font-weight: 600;
+}
+
+article .content tr:hover td {
+  background-color: rgba(255, 56, 56, 0.05);
+}
+
 /* Table of Contents */
 .toc {
   background-color: var(--bg-card);
@@ -331,4 +354,11 @@ article .content img {
   h1 { font-size: 1.75rem; }
   article h1 { font-size: 1.75rem; }
   .post-card { padding: 1rem; }
+
+  /* Horizontally scroll tables on small screens */
+  article .content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
