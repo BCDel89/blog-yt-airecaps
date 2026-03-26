@@ -90,9 +90,9 @@ function handler(event) {
         compress: true,
       },
 
-      // /blog/* behavior → S3
+      // /blog* behavior → S3 (matches /blog, /blog/, and /blog/anything)
       additionalBehaviors: {
-        '/blog/*': {
+        '/blog*': {
           origin: blogOrigin,
           viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,

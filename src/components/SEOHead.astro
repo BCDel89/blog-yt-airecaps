@@ -21,7 +21,10 @@ const {
 
 const siteURL = 'https://airecaps.com';
 const siteName = 'AI Recaps';
-const canonical = canonicalURL || Astro.url.href;
+// With base='/blog' and pages under src/pages/blog/, Astro.url.pathname becomes
+// /blog/blog/... during static build — deduplicate the doubled /blog prefix.
+const deduplicatedPath = Astro.url.pathname.replace(/^\/blog\/blog/, '/blog');
+const canonical = canonicalURL || (siteURL + deduplicatedPath);
 const ogImage = image || `${siteURL}/og-default.png`;
 const fullTitle = `${title} | ${siteName} Blog`;
 
