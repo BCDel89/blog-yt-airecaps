@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://airecaps.com',
   base: '/blog',
+  trailingSlash: 'always',
   output: 'static',
   integrations: [sitemap()],
   build: {
