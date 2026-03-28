@@ -52,6 +52,11 @@ jobs:
           # CloudFront serves /blog/* from S3, so assets must also be under blog/ prefix.
           cp -r dist/_astro dist/blog/_astro
 
+          # Sitemaps and robots.txt land at dist/ root but CloudFront needs them under blog/
+          for f in sitemap-index.xml sitemap-0.xml robots.txt; do
+            [ -f "dist/$f" ] && cp "dist/$f" "dist/blog/$f"
+          done
+
           # Sync everything to S3 (removes stale files)
           aws s3 sync dist/ s3://$S3_BUCKET/ --delete
 
