@@ -5,7 +5,7 @@ pubDate: 2026-05-05
 author: "AI Recaps Team"
 tags: ["youtube", "channels", "ai summary", "productivity", "learning"]
 image:
-  src: "./youtube-channels-better-as-summaries-hero.png"
+  src: "/blog/youtube-channels-better-as-summaries-hero.png"
   alt: "YouTube channel grid with AI summary panel overlay on a dark laptop screen"
 ---
 
